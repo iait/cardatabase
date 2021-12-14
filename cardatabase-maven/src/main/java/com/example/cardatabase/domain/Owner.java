@@ -9,12 +9,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Owner {
 
 	@Id
@@ -27,6 +33,7 @@ public class Owner {
 
 	// cascade ALL means that if the owner is deleted, the cars linked to that owner are deleted as well
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@JsonIgnore
 	private List<Car> cars;
 
 }
