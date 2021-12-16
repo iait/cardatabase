@@ -10,10 +10,10 @@
 	</parent>
 	
 	<groupId>com.example</groupId>
-	<artifactId>cardatabase</artifactId>
+	<artifactId>cardatabase-security-in-db</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cardatabase</name>
-	<description>Car database</description>
+	<name>cardatabase-security-in-db</name>
+	<description>Car database with security storing users in the database</description>
 	
 	<properties>
 		<java.version>11</java.version>
@@ -37,6 +37,17 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
@@ -57,6 +68,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 		

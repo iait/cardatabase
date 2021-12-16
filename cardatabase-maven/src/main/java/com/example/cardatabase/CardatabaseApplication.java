@@ -12,6 +12,8 @@ import com.example.cardatabase.domain.Car;
 import com.example.cardatabase.domain.CarRepository;
 import com.example.cardatabase.domain.Owner;
 import com.example.cardatabase.domain.OwnerRepository;
+import com.example.cardatabase.domain.User;
+import com.example.cardatabase.domain.UserRepository;
 
 @SpringBootApplication
 public class CardatabaseApplication {
@@ -23,6 +25,9 @@ public class CardatabaseApplication {
 
 	@Autowired
 	private OwnerRepository ownerRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	public static void main(String[] args) {
 
@@ -71,6 +76,19 @@ public class CardatabaseApplication {
 					.year(2018)
 					.price(39000)
 					.owner(mary)
+					.build());
+
+			// username: user password: user
+			userRepository.save(User.builder()
+					.username("user")
+					.password("$2a$04$1.YhMIgNX/8TkCKGFUONWO1waedKhQ5KrnB30fl0Q01QKqmzLf.Zi")
+					.role("USER")
+					.build());
+			// username: admin password: admin
+			userRepository.save(User.builder()
+					.username("admin")
+					.password("$2a$04$KNLUwOWHVQZVpXyMBNc7JOzbLiBjb9Tk9bP7KNcPI12ICuvzXQQKG")
+					.role("ADMIN")
 					.build());
 		};
 	}
