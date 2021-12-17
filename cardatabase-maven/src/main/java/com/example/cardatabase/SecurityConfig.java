@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -28,16 +29,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.cors().and()
+		http
+			.csrf()
+				.ignoringAntMatchers("/login")
+				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+			.cors().and()
 			.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/login").permitAll()
 				.anyRequest().authenticated().and()
-			// Filter for the api/login requests
-			.addFilterBefore(
-					new LoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
 			// Filter for other requests to check JWT in header
 			.addFilterBefore(
-					new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+					new AuthenticationFilter(),
+					UsernamePasswordAuthenticationFilter.class)
+			// Filter for the api/login requests
+			.addFilterBefore(
+					new LoginFilter("/login", HttpMethod.POST, authenticationManager()),
+					AuthenticationFilter.class);
 	}
 
 	@Autowired

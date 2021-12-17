@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -31,9 +32,10 @@ public class Owner {
 
 	private String lastName;
 
+	@JsonIgnore
+	@ToString.Exclude
 	// cascade ALL means that if the owner is deleted, the cars linked to that owner are deleted as well
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	@JsonIgnore
 	private List<Car> cars;
 
 }

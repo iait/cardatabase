@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -36,6 +37,7 @@ public class Car {
 
 	private Integer price;
 
+	@ToString.Exclude
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "owner")
 	private Owner owner;

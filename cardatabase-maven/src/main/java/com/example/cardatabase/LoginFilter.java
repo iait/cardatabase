@@ -8,10 +8,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -21,9 +23,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
-	public LoginFilter(String url, AuthenticationManager authManager) {
+	public LoginFilter(String url, HttpMethod method, AuthenticationManager authManager) {
 
-		super(new AntPathRequestMatcher(url));
+		super(new AntPathRequestMatcher(url, method.name()));
 		setAuthenticationManager(authManager);
 	}
 
@@ -47,6 +49,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 					throws IOException, ServletException {
 
 		AuthenticationService.addToken(res, auth.getName());
+		SecurityContextHolder.getContext().setAuthentication(auth);
 	}
 
 }
